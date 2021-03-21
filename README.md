@@ -4,7 +4,7 @@
 `Default Port: 3000`
 ```
 1. npm install
-3. npm start
+2. npm start
 ```
 
 ## View the application
