@@ -5,9 +5,10 @@ import "./SendMail.css";
 import {useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {closeSendMessage} from "./features/mailSlice";
-import { db, getUserDetails, isRegistered} from './firebase';
+import { db, getUserDetails} from './firebase';
+import { get_shared_secret, encrypt } from './stegCrypt';
+import { stego } from './lib/lsbtools';
 import firebase from "firebase";
-import { get_shared_secret,gen_keys, encrypt } from './stegCrypt';
 
 function SendMail() {
     
@@ -50,22 +51,26 @@ function SendMail() {
             // Encrypt the message using iv as the shared_key
             const encrypted = encrypt(formData.message, passkey.shared_key);
 
+            const hidden_img = await stego(true, encrypted.enc);
+            console.log("after img dwnloaded!!", hidden_img);
             // Put this enc text in `to` collection
-            to_db.doc('inbox').collection('all').add({
+            await to_db.doc('inbox').collection('all').add({
                 to: formData.to,
                 from: email_id,
                 subject: formData.subject,
                 message: encrypted.enc,
+                img: hidden_img,
                 iv: encrypted.iv,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
             // Put the enc text in `from` collection
-            from_db.doc('sent').collection('sentsent').add({
+            await from_db.doc('sent').collection('sentsent').add({
                 to: formData.to,
                 from: email_id,
                 subject: formData.subject,
                 message: encrypted.enc,
+                img: hidden_img,
                 iv: encrypted.iv,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
