@@ -12,7 +12,7 @@ const firebaseConfig = {
     appId: "1:399113846440:web:528e83fbd47ef7bc30cc9d",
     measurementId: "G-RV3LNRRNWR"
 };
-  
+// admin.initializeApp(firebaseConfig);
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth_state = firebase.auth.Auth.Persistence.SESSION;

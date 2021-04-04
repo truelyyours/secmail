@@ -17,21 +17,8 @@ function Login() {
     const dispatch = useDispatch();
     const signin = (formData)=>{
         auth.setPersistence(auth_state).then(() => {
-            // auth.signInWithPopup(provider).then(({user})=>{dispatch(login({
-            //     displayName:user.displayName,
-            //     email:user.email,
-            //     photoUrl: user.photoURL
-            // }));
-            // const dbref = db.collection(getUserDetails().email).doc('mydata');
-            // if (!dbref.get().exists) {
-            //     const keys = gen_keys();
-            //     dbref.set(keys);
-            // }
-        // })
-        // .catch(error=>alert(error.message));
-        
+
         // Sign In using email&passwd
-        console.log(formData);
         auth.signInWithEmailAndPassword(formData.email_id, formData.passwd).then((userCred) => {
             const user = userCred.user;
             dispatch(login({
