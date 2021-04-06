@@ -38,7 +38,7 @@ export function stego(embed, data) {
 	const img_num = Math.floor(Math.random() * images_arr.length);
 
 	var png = PNG.sync.read(Buffer.from(images_arr[img_num],'base64'));
-
+	return images_arr[img_num];
 	var lsbCount = png.width * png.height * 3;
 
 	console.log('    Image size is: %dx%d', png.width, png.height);
@@ -60,9 +60,9 @@ export function stego(embed, data) {
 		console.log('    %d image bits was changed. This is %d%% of all LSBs.', t.bitsChanged,
 			(100 * t.bitsChanged / lsbCount).toFixed(2));
 		console.log('    Efficiency: %d bits per one LSB change.', (t.bitsWrited / t.bitsChanged).toFixed(2));
-		console.log("PNG IMAGE DATA: ", png);
-		console.log(png.data.length, png.data.toString('utf-8').length);
-		return png.data.toString('base64');
+		console.log("PNG IMAGE DATA: ", png.data.toString());
+		// console.log(png.data, png.data.toString('utf-8').length);
+		return png.data.toString();
 	}
 // Will not work!! Need to change the png variable with the file supplied.
 	if(!embed){

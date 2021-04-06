@@ -63,35 +63,18 @@ function EmailList() {
 
             </div>
             <div className="emailList__list">
-                {emails.map(({ id, data: { from, subject, message, timestamp } }) => {
-                    // console.log(timestamp);
-                    // console.log(timestamp?.seconds)
-                    // console.log(id, to);
+                {emails.map(({ id, data: { from, subject, message, timestamp,image_url } }) => {
                     return (
                         <EmailRow
                             id={id}
                             key={id}
                             title={from}
                             subject={subject}
-                            description={message}
-                            time={new Date(timestamp?.seconds*1000 + 5.5*60*60).toLocaleString()} />
+                            message={message}
+                            time={new Date(timestamp?.seconds*1000 + 5.5*60*60).toLocaleString()}
+                            img_url={image_url} />
                     );
                 })}
-                {/* <EmailRow
-                title="Kamya"
-                subject="hello, this is dummy mail!!!"
-                description="This is a test"
-                time="10pm"    /> 
-<EmailRow
-                title="Kamya"
-                subject="hello, this is dummy mail!!!"
-                description="This is a test"
-                time="10pm"    /> 
-<EmailRow
-                title="Kamya"
-                subject="hello, this is dummy mail!!!"
-                description="This is a test"
-                time="10pm"    />  */}
 
             </div>
         </div>

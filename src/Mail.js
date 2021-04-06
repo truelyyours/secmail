@@ -18,11 +18,33 @@ import {selectOpenMail} from "./features/mailSlice";
 import {useSelector} from "react-redux";
 import { db, getUserDetails } from "./firebase";
 import { decrypt } from "./stegCrypt";
+import { https } from "follow-redirects";
 
 
 function Mail() {
     const history=useHistory();
     const selectedMail = useSelector(selectOpenMail);
+    // var img_data = "data:image/png;base64,";
+    
+    function dwnld_img() {
+        console.log("inside dwnld_img: ", selectedMail?.img_url);
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (idk) => {
+            console.log(idk.message);
+        }
+        xhr.open('GET',selectedMail?.img_url);
+        xhr.send();
+        console.log(xhr)
+        // https.request(selectedMail?.img_url, (resp) => {
+        //     resp.on('data', (chunk) => img_data += chunk);
+        //     resp.on('end', () => {
+        //         document.getElementsByTagName('img')[1].src = img_data;
+        //         console.log("image tag source set!");
+        //     });
+        // }).on('response', (resp) => console.log(resp))
+    }
+    
     async function decrypt_message() {
         const email_id = getUserDetails().email;
         const enc_text = document.getElementsByClassName('mail__message')[0].textContent;
@@ -31,7 +53,6 @@ function Mail() {
         const mail_data = await db.collection(email_id).doc('inbox').collection('all').doc(selectedMail?.id).get();
         dec_data.iv = mail_data.data().iv;
         const key_ref = await db.collection(email_id).doc(selectedMail?.title).get();
-        console.log(selectedMail?.iv);
         
         dec_data.shared_key = key_ref.data().shared_key;
 
@@ -41,7 +62,7 @@ function Mail() {
     }
 
     return (
-        <div className="mail">
+        <div className="mail" style={{overflow: "scroll"}}>
             <div className="mail__tools">
                 <div className="mail__toolsLeft">
                     <IconButton onClick={()=>history.push("/")}>
@@ -95,8 +116,9 @@ function Mail() {
 
                 </div>
                 <div className="mail__message">
-                    {/* This thing should display the image url for gods sake!!! */}
-                    <p>{selectedMail?.message}</p>
+                    <p>Encrypted Message: {selectedMail?.message}</p>
+                    <h3>Mesasge is also hidden in this image :P</h3>
+                    <img src={selectedMail?.img_url} alt="" />
                 </div>
                 <div className="mail__descryption">
                     <Button className="mail_decrypt" variant="contained" color="primary" onClick={decrypt_message}>Decrypt Message</Button>

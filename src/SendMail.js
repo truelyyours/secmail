@@ -61,15 +61,11 @@ function SendMail() {
             // Encrypt the message using iv as the shared_key
             const encrypted = encrypt(formData.message, passkey.shared_key);
 
-            const hidden_img = await stego(true, encrypted.enc);
-            const img_ref = await storage.ref('msg_pics').child(get_filename(16)).putString(hidden_img,'base64')
-            ;
-            
+            const hidden_img = await stego(true, encrypted.enc); // In base64
+            const img_ref = await storage.ref('msg_pics').child(get_filename(16)).putString(hidden_img,'base64',{'contentType':'image/png'});
             const img_url = await img_ref.ref.getDownloadURL();
-            // console.log(img_url);
-            
-            // Put this enc text in `to` collection
-            await to_db.doc('inbox').collection('all').add({
+
+            var mail_obj = {
                 to: formData.to,
                 from: email_id,
                 subject: formData.subject,
@@ -77,18 +73,17 @@ function SendMail() {
                 image_url: img_url,
                 iv: encrypted.iv,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            };
+            // mail_obj['img_length'] = img_parts.length;
+            // for (var i=0;i<img_parts.length;i++) {
+            //     mail_obj[i] = img_parts[i];
+            // }
+
+            // Put this enc text in `to` collection
+            await to_db.doc('inbox').collection('all').add(mail_obj);
 
             // Put the enc text in `from` collection
-            await from_db.doc('sent').collection('sentsent').add({
-                to: formData.to,
-                from: email_id,
-                subject: formData.subject,
-                message: encrypted.enc,
-                image_url: img_url,
-                iv: encrypted.iv,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            });
+            await from_db.doc('sent').collection('sentsent').add(mail_obj);
 
             dispatch(closeSendMessage());
         } catch(error) {

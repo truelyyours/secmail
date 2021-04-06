@@ -9,12 +9,12 @@ import {useDispatch} from "react-redux";
 import { selectMail } from './features/mailSlice';
 
 
-function EmailRow({id,title,subject,description,time}) {
+function EmailRow({id,title,subject,message,time, img_url}) {
     const history=useHistory();
     const dispatch=useDispatch();
     const openMail=()=>{
         dispatch(selectMail({
-            id,title,subject,description,time,
+            id,title,subject,message,time, img_url
         })
         );
         history.push("/mail");
@@ -33,7 +33,7 @@ function EmailRow({id,title,subject,description,time}) {
             <h3 className="emailRow__title">{title}</h3>
             <div className="emailRow__message">
                 <h4>{subject}{" "}
-                <span className="emailRow__description">-{description}</span></h4>
+                <span className="emailRow__description">-{message}</span></h4>
             </div>
             <p className="emailRow__time">{time}</p>
 
