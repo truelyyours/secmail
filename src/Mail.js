@@ -31,7 +31,7 @@ function Mail() {
         const mail_data = await db.collection(email_id).doc('inbox').collection('all').doc(selectedMail?.id).get();
         dec_data.iv = mail_data.data().iv;
         const key_ref = await db.collection(email_id).doc(selectedMail?.title).get();
-        console.log(email_id, selectedMail?.title, key_ref.exists);
+        console.log(selectedMail?.iv);
         
         dec_data.shared_key = key_ref.data().shared_key;
 
@@ -95,7 +95,8 @@ function Mail() {
 
                 </div>
                 <div className="mail__message">
-                    <p>{selectedMail?.description}</p>
+                    {/* This thing should display the image url for gods sake!!! */}
+                    <p>{selectedMail?.message}</p>
                 </div>
                 <div className="mail__descryption">
                     <Button className="mail_decrypt" variant="contained" color="primary" onClick={decrypt_message}>Decrypt Message</Button>

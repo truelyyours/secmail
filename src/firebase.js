@@ -1,18 +1,6 @@
 import firebase from "firebase";
-const admin = require('firebase-admin');
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// Others
-// const firebaseConfig = {
-//     apiKey: "AIzaSyAeMCeWGXbAbOcarxyb8axYInOpCb_QDBE",
-//     authDomain: "clone-d3b4c.firebaseapp.com",
-//     projectId: "clone-d3b4c",
-//     storageBucket: "clone-d3b4c.appspot.com",
-//     messagingSenderId: "790215742220",
-//     appId: "1:790215742220:web:dd8c93416c9350f3e5ef29",
-//     measurementId: "G-97PWER1T35"
-//   };
-  // Mine
+// Mine
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyBlPJSImAlsz1tHDuFy4Wj5gmcG5MzYU8M",
@@ -24,24 +12,31 @@ const firebaseConfig = {
     appId: "1:399113846440:web:528e83fbd47ef7bc30cc9d",
     measurementId: "G-RV3LNRRNWR"
 };
-  
+// admin.initializeApp(firebaseConfig);
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth_state = firebase.auth.Auth.Persistence.SESSION;
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
+const storage = firebaseApp.storage();
 
 export function getUserDetails() {
     return firebaseApp.auth().currentUser.toJSON();
 }
 
-export {db,auth,provider,auth_state};
+export {db,auth,provider,auth_state, storage};
 
 /* DB Structure:
-    emails: By ids. Each have subject: text, message:image with enc data, time: timestamp, from: Sender emailid, to reviecer emailid. 
-    users: by ids: emails: all the mails of this user, sharedKeys: email-sharedkey.
-*/
+    email-id's: to whom mail hase been sent or recieved.
+        -> shared-key between current and this user
+    mydata: the data of this user, pub and priv key
+    inbox: the inbox of current user
+        -> all => collection of all the mails current user recieved
+    sent: the sentbox of current user
+        -> sentsent => collection of all the mails the current user has sent
+    */
 
+// #TODO: Change this if you get time!!
 /*title={to}
                         subject={subject}
                         description={message}
