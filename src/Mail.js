@@ -29,7 +29,7 @@ function Mail() {
     function dwnld_img() {
         console.log("inside dwnld_img: ", selectedMail?.img_url);
         var xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
+        xhr.responseType = 'text';
         xhr.onload = (idk) => {
             console.log(idk.message);
         }
@@ -47,8 +47,8 @@ function Mail() {
     
     async function decrypt_message() {
         const email_id = getUserDetails().email;
-        console.log(document.getElementsByClassName('message__enc')[0].textContent.split(':'))
-        const enc_text = document.getElementsByClassName('message__enc')[0].textContent.split(':')[1];
+        // console.log(document.getElementsByClassName('message__enc')[0].textContent.split(': '))
+        const enc_text = document.getElementsByClassName('message__enc')[0].textContent.split(': ')[1];
         var dec_data = {"shared_key":"", "iv":""};
 
         const mail_data = await db.collection(email_id).doc('inbox').collection('all').doc(selectedMail?.id).get();
@@ -117,7 +117,7 @@ function Mail() {
 
                 </div>
                 <div className="mail__message">
-                    <p className="message__enc">Encrypted Message:{selectedMail?.message}</p>
+                    <p className="message__enc">Encrypted Message: {selectedMail?.message}</p>
                     <h3>Mesasge is also hidden in this image :P</h3>
                     <img src={selectedMail?.img_url} alt = "" />
                 </div>
