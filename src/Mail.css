@@ -11,6 +11,8 @@
     display: flex;
 }
 .mail__body{
+    overflow-wrap: break-word;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     margin: 30px;
@@ -47,4 +49,17 @@
     padding: 10px;
     margin-right: 20px;
     overflow-wrap: break-word;
+}
+
+.mail__decryption {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    align-self: center;
+}
+
+img {
+    display: block;
+    margin: auto;
+    width: 50%;
 }

@@ -47,7 +47,8 @@ function Mail() {
     
     async function decrypt_message() {
         const email_id = getUserDetails().email;
-        const enc_text = document.getElementsByClassName('mail__message')[0].textContent;
+        console.log(document.getElementsByClassName('message__enc')[0].textContent.split(':'))
+        const enc_text = document.getElementsByClassName('message__enc')[0].textContent.split(':')[1];
         var dec_data = {"shared_key":"", "iv":""};
 
         const mail_data = await db.collection(email_id).doc('inbox').collection('all').doc(selectedMail?.id).get();
@@ -62,7 +63,7 @@ function Mail() {
     }
 
     return (
-        <div className="mail" style={{overflow: "scroll"}}>
+        <div className="mail" style={{overflow: "auto"}}>
             <div className="mail__tools">
                 <div className="mail__toolsLeft">
                     <IconButton onClick={()=>history.push("/")}>
@@ -116,11 +117,11 @@ function Mail() {
 
                 </div>
                 <div className="mail__message">
-                    <p>Encrypted Message: {selectedMail?.message}</p>
+                    <p className="message__enc">Encrypted Message:{selectedMail?.message}</p>
                     <h3>Mesasge is also hidden in this image :P</h3>
-                    <img src={selectedMail?.img_url} alt="" />
+                    <img src={selectedMail?.img_url} alt = "" />
                 </div>
-                <div className="mail__descryption">
+                <div className="mail__decryption">
                     <Button className="mail_decrypt" variant="contained" color="primary" onClick={decrypt_message}>Decrypt Message</Button>
                 </div>
             </div>

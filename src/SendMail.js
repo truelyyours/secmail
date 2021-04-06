@@ -61,7 +61,7 @@ function SendMail() {
             // Encrypt the message using iv as the shared_key
             const encrypted = encrypt(formData.message, passkey.shared_key);
 
-            const hidden_img = await stego(true, encrypted.enc); // In base64
+            const hidden_img = stego(true, encrypted.enc); // In base64
             const img_ref = await storage.ref('msg_pics').child(get_filename(16)).putString(hidden_img,'base64',{'contentType':'image/png'});
             const img_url = await img_ref.ref.getDownloadURL();
 
