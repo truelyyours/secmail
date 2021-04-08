@@ -142,37 +142,6 @@ function write(image, data) {
     bitsBuffer = 0;
     bitsAvailable = 0;
 
-    // for(i in defaults){
-    //     if(!options.hasOwnProperty(i)){
-    //         options[i] = defaults[i];
-    //     }
-    // }
-
-    // if(options.shuffle || options.matrix || options.mask){
-    //     prng = rc4(options.key);
-    // }
-
-    // if(options.pm1code){
-    //     writeBit = writeBitAdd;
-    // }else{
-    //     writeBit = writeBitFlip;
-    // }
-
-    // if(options.mask){
-    //     writeByte = writeByteMasked;
-    //     readByte = readByteMasked;
-    // }else{
-    //     writeByte = writeByteUnmasked;
-    //     readByte = readByteUnmasked;
-    // }
-
-    // if(options.shuffle){
-    //     lsbPos = lsbPosShuffled;
-    //     shuffledPos = shuffleInit(lsbCount, prng);
-    // }else{
-    //     lsbPos = lsbPosRegular;
-    // }
-
     n = 16;
 
     if(options.matrix){
@@ -225,14 +194,8 @@ function write(image, data) {
     };
 }
 
-// FUNC WE NEED!!!
+// Unhide the hidden data
 function read(image){
-    // var defaults = {
-    //     shuffle: true,
-    //     matrix: true,
-    //     mask: true,
-    //     key: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-    // };
 
     var i, k, n, prng, lsbCount = image.length / 4 * 3;
 
@@ -242,37 +205,6 @@ function read(image){
     bitsChanged = 0;
     bitsBuffer = 0;
     bitsAvailable = 0;
-
-    // for(i in defaults){
-    //     if(!options.hasOwnProperty(i)){
-    //         options[i] = defaults[i];
-    //     }
-    // }
-
-    // if(options.shuffle || options.matrix || options.mask){
-    //     prng = rc4(options.key);
-    // }
-
-    // if(options.pm1code){
-    //     writeBit = writeBitAdd;
-    // }else{
-    //     writeBit = writeBitFlip;
-    // }
-
-    // if(options.mask){
-    //     writeByte = writeByteMasked;
-    //     readByte = readByteMasked;
-    // }else{
-    //     writeByte = writeByteUnmasked;
-    //     readByte = readByteUnmasked;
-    // }
-
-    // if(options.shuffle){
-    //     lsbPos = lsbPosShuffled;
-    //     shuffledPos = shuffleInit(lsbCount, prng);
-    // }else{
-    //     lsbPos = lsbPosRegular;
-    // }
 
     n = 1;
     if(options.matrix){

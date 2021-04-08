@@ -24,8 +24,10 @@ They seems like feature to me (at least) :smiley:
   - [ ] Style the button and alert box
 - [ ] Do something to dislay the username (email id) of the current logged in user!!
 - [ ] **Inbox and Sentbox should be two seperate buttons. Render the EmailList view accordingly**
-- [ ] Get a working stego.
-- [ ] Put encrypted data in image and directly render a image into the EmailView based on base64 encoding of image
-- [ ] Try and remove the feature to copy and paste (from the laert popup)
-- [ ] Design the login page
+- [ ] Get a working stego. [Implement LSP algo if possible!]
+- [ ] Pop an alert when the data/msg cannot be hidden in the image
+- [ ] Put encrypted data in image and directly render a image into the EmailView based on base64 encoding of image (F Firebase is async!! For once I need it to be sync!!!)
+- [ ] Try and remove the feature to copy and paste (from the alert popup)
+- [x] Design the login page.
+- [ ] Fix the login click button bug
 
