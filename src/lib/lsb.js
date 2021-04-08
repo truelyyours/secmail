@@ -129,6 +129,25 @@ function flushBits(n, data, prng) {
     }
 }
 
+function check_hiding(image,data) {
+    var k, n, capacity, lsbCount = image.length / 4 * 3;
+    n = 16;
+    while(n > 0){
+        k = (1 << n) - 1;
+        capacity = Math.floor((lsbCount - 4) / k) * n;
+
+        if(capacity >= (data.length + 4) * 8){
+            break;
+        }
+        n--;
+    }
+
+    if(n === 0 || capacity < (data.length + 4) * 4){
+        return false;
+    }
+    return true;
+}
+
 // Hiding the `data` in `image`
 function write(image, data) {
 
@@ -263,5 +282,6 @@ if (typeof module != "undefined" && typeof module.exports != "undefined") module
     read: read,
     write: write,
     enhance: enhance,
-    fill: fill
+    fill: fill,
+    check_hiding: check_hiding
 };

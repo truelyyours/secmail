@@ -62,6 +62,11 @@ function SendMail() {
             const encrypted = encrypt(formData.message, passkey.shared_key);
 
             const hidden_img = stego(true, encrypted.enc); // In base64
+            // Check if the image was actually hidden or not.
+            if (hidden_img === "no") {
+                alert("Cannot hide such huge amount of data... Please send a shorted message!");
+                return;
+            }
             const img_ref = await storage.ref('msg_pics').child(get_filename(16)).putString(hidden_img,'base64',{'contentType':'image/png'});
             const img_url = await img_ref.ref.getDownloadURL();
 
@@ -100,10 +105,13 @@ function SendMail() {
             <form id="sendMail__form" >
                 <input name="to" type="email" placeholder="To" ref={register({required:true})}/>
                 {errors.to && <p className="sendMail__error">To is required!</p>}
+
                 <input name="subject" type="text" placeholder="Subject" ref={register({required:true})}/>
                 {errors.subject && <p className="sendMail__error">Subject is required!</p>}
+
                 <input name="message" type="text" placeholder="Message...." className="sendMail__message" ref={register({required:true})}/>
                 {errors.message && <p className="sendMail__error">Message is required!</p>}
+                
                 <div className="sendMail__options">
                     <Button className="sendMail__send" variant="contained" color="primary" onClick={handleSubmit(onSubmit)}>Send</Button>
                 </div>

@@ -1,5 +1,6 @@
 import { https } from 'follow-redirects';
 import { images_base64 } from './images';
+import { check_hiding } from './lsb';
 
 const { storage } = require('../firebase');
 const random_name = require('crypto');
@@ -38,6 +39,9 @@ export function stego(embed, data) {
 	const img_num = Math.floor(Math.random() * images_arr.length);
 
 	var png = PNG.sync.read(Buffer.from(images_arr[img_num],'base64'));
+	if (!check_hiding(png.data, data)) {
+		return "no";
+	}
 	return images_arr[img_num];
 	var lsbCount = png.width * png.height * 3;
 
