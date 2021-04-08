@@ -63,7 +63,7 @@ function Mail() {
     }
 
     return (
-        <div className="mail" style={{overflow: "auto"}}>
+        <div className="mail">
             <div className="mail__tools">
                 <div className="mail__toolsLeft">
                     <IconButton onClick={()=>history.push("/")}>
@@ -116,11 +116,12 @@ function Mail() {
                     <p className="mail__time">{selectedMail?.time}</p>
 
                 </div>
-                <div className="mail__message">
+                <div className="mail__message" >
                     <p className="message__enc">Encrypted Message: {selectedMail?.message}</p>
                     <h3>Mesasge is also hidden in this image :P</h3>
                     <img src={selectedMail?.img_url} alt = "" />
                 </div>
+
                 <div className="mail__decryption">
                     <Button className="mail_decrypt" variant="contained" color="primary" onClick={decrypt_message}>Decrypt Message</Button>
                 </div>

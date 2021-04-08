@@ -9,11 +9,19 @@ import { db, getUserDetails, storage} from './firebase';
 import { get_shared_secret, encrypt } from './stegCrypt';
 import { stego } from './lib/lsbtools';
 import firebase from "firebase";
+import Dropdown from 'react-dropdown';
+
 function SendMail() {
     
     var passkey = {"shared_key":""};
     const img_chunk = 1048400;
     const { register , handleSubmit , watch , errors}=useForm();
+
+    const dropdown_options = [
+        {value: 'crypto', label:'Crypto Only'},
+        {value: 'stego', label: 'Stego Only'},
+        {value: 'both', label: 'Both'}
+    ];
 
     function get_filename(length) {
         var result           = '';
@@ -33,6 +41,15 @@ function SendMail() {
         const to_db = db.collection(formData.to);
 
         try {
+            // Check if stego or crypto is selected
+            const sel =  document.getElementsByClassName('is-selected')
+            if (sel.length == 0) {
+                alert("Please select at least one encryption/hiding property from the dropdown!!");
+                return;
+            }
+            const sec_option = sel[0].value;
+
+
             // Check if `to` is registered
             var check_reg = await to_db.get();
             if (check_reg.size == 0) {
@@ -61,6 +78,7 @@ function SendMail() {
             // Encrypt the message using iv as the shared_key
             const encrypted = encrypt(formData.message, passkey.shared_key);
 
+            // if 
             const hidden_img = stego(true, encrypted.enc); // In base64
             // Check if the image was actually hidden or not.
             if (hidden_img === "no") {
@@ -109,9 +127,12 @@ function SendMail() {
                 <input name="subject" type="text" placeholder="Subject" ref={register({required:true})}/>
                 {errors.subject && <p className="sendMail__error">Subject is required!</p>}
 
-                <input name="message" type="text" placeholder="Message...." className="sendMail__message" ref={register({required:true})}/>
+                {/* <input name="message" type="text" placeholder="Message...." className="sendMail__message" ref={register({required:true})}/> */}
+                <textarea form="sendMail__form" name="message" wrap="soft" className="sendMail__message" ref={register({required:true})} placeholder="Message...."></textarea>
                 {errors.message && <p className="sendMail__error">Message is required!</p>}
                 
+                <Dropdown id="sec_scheme" className="dropdown" options={dropdown_options} placeholder="--Select One--" />
+
                 <div className="sendMail__options">
                     <Button className="sendMail__send" variant="contained" color="primary" onClick={handleSubmit(onSubmit)}>Send</Button>
                 </div>

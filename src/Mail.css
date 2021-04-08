@@ -1,6 +1,7 @@
 .mail{
     flex:1;
     background-color: whitesmoke;
+    overflow: hidden;
 }
 .mail__tools{
     display: flex;
@@ -12,7 +13,7 @@
 }
 .mail__body{
     overflow-wrap: break-word;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     margin: 30px;
@@ -49,6 +50,14 @@
     padding: 10px;
     margin-right: 20px;
     overflow-wrap: break-word;
+    overflow: auto;
+}
+
+img {
+    display: block;
+    margin: auto;
+    max-width: 50%;
+    max-height: 50%;
 }
 
 .mail__decryption {
@@ -56,10 +65,4 @@
     margin-right: 5px;
     margin-bottom: 10px;
     align-self: center;
-}
-
-img {
-    display: block;
-    margin: auto;
-    width: 50%;
 }
