@@ -37,8 +37,9 @@ export function stego(embed, data) {
 
 	const images_arr = images_base64;
 	const img_num = Math.floor(Math.random() * images_arr.length);
-
+	const image = Buffer.from(images_arr[img_num],'base64').toString();
 	var png = PNG.sync.read(Buffer.from(images_arr[img_num],'base64'));
+	// Check if the data can be hidden or not.
 	if (!check_hiding(png.data, data)) {
 		return "no";
 	}
@@ -66,7 +67,7 @@ export function stego(embed, data) {
 		console.log('    Efficiency: %d bits per one LSB change.', (t.bitsWrited / t.bitsChanged).toFixed(2));
 		console.log("PNG IMAGE DATA: ", png.data.toString());
 		// console.log(png.data, png.data.toString('utf-8').length);
-		return png.data.toString();
+		return Buffer.from(image).toString('base64');
 	}
 // Will not work!! Need to change the png variable with the file supplied.
 	if(!embed){
