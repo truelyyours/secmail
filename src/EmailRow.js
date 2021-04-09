@@ -9,12 +9,12 @@ import {useDispatch} from "react-redux";
 import { selectMail } from './features/mailSlice';
 
 
-function EmailRow({id,title,subject,message,time, img_url}) {
+function EmailRow({id,title,subject,message,time, img_url, enc_scheme}) {
     const history=useHistory();
     const dispatch=useDispatch();
     const openMail=()=>{
         dispatch(selectMail({
-            id,title,subject,message,time, img_url
+            id,title,subject,message,time, img_url, enc_scheme
         })
         );
         history.push("/mail");

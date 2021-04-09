@@ -42,12 +42,11 @@ function SendMail() {
 
         try {
             // Check if stego or crypto is selected
-            const sel =  document.getElementsByClassName('is-selected')
-            if (sel.length == 0) {
-                alert("Please select at least one encryption/hiding property from the dropdown!!");
+            const sel = document.getElementsByName('enc_scheme')[0]
+            if (sel.value == "none") {
+                alert("Please select at least one security scheme from the dropdown.");
                 return;
             }
-            const sec_option = sel[0].value;
 
 
             // Check if `to` is registered
@@ -78,7 +77,6 @@ function SendMail() {
             // Encrypt the message using iv as the shared_key
             const encrypted = encrypt(formData.message, passkey.shared_key);
 
-            // if 
             const hidden_img = stego(true, encrypted.enc); // In base64
             // Check if the image was actually hidden or not.
             if (hidden_img === "no") {
@@ -94,6 +92,7 @@ function SendMail() {
                 subject: formData.subject,
                 message: encrypted.enc,
                 image_url: img_url,
+                enc_type: sel.value,
                 iv: encrypted.iv,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
@@ -130,8 +129,13 @@ function SendMail() {
                 {/* <input name="message" type="text" placeholder="Message...." className="sendMail__message" ref={register({required:true})}/> */}
                 <textarea form="sendMail__form" name="message" wrap="soft" className="sendMail__message" ref={register({required:true})} placeholder="Message...."></textarea>
                 {errors.message && <p className="sendMail__error">Message is required!</p>}
-                
-                <Dropdown id="sec_scheme" className="dropdown" options={dropdown_options} placeholder="--Select One--" />
+
+                <select className="dropdown" name="enc_scheme" form="sendMail__form">
+                    <option value="none" defaultValue>-- Select One --</option>
+                    <option value="crypto">Crypto Only</option>
+                    <option value="stego">Stego Only</option>
+                    <option value="both">Crypto and Stego Only</option>
+                </select>
 
                 <div className="sendMail__options">
                     <Button className="sendMail__send" variant="contained" color="primary" onClick={handleSubmit(onSubmit)}>Send</Button>

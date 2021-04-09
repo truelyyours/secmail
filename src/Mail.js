@@ -25,7 +25,15 @@ function Mail() {
     const history=useHistory();
     const selectedMail = useSelector(selectOpenMail);
     // var img_data = "data:image/png;base64,";
-    
+    var stego_style = {display: "block"};
+    var enc_style = {display: "block"};
+    if (selectedMail?.enc_scheme == "crypto") {
+        stego_style.display = "none";
+    }
+    if (selectedMail?.enc_scheme == "stego") {
+        enc_style.display = "none";
+    }
+
     function dwnld_img() {
         console.log("inside dwnld_img: ", selectedMail?.img_url);
         var xhr = new XMLHttpRequest();
@@ -117,9 +125,11 @@ function Mail() {
 
                 </div>
                 <div className="mail__message" >
-                    <p className="message__enc">Encrypted Message: {selectedMail?.message}</p>
+                    <p className="message__enc" style={enc_style}> Encrypted Message: {selectedMail?.message}</p>
+                    <div className="message__stego" style={stego_style}>
                     <h3>Mesasge is also hidden in this image :P</h3>
                     <img src={selectedMail?.img_url} alt = "" />
+                    </div>
                 </div>
 
                 <div className="mail__decryption">

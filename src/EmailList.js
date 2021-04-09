@@ -63,7 +63,7 @@ function EmailList() {
 
             </div>
             <div className="emailList__list">
-                {emails.map(({ id, data: { from, subject, message, timestamp,image_url } }) => {
+                {emails.map(({ id, data: { from, subject, message, timestamp,image_url, enc_type} }) => {
                     return (
                         <EmailRow
                             id={id}
@@ -72,7 +72,8 @@ function EmailList() {
                             subject={subject}
                             message={message}
                             time={new Date(timestamp?.seconds*1000 + 5.5*60*60).toLocaleString()}
-                            img_url={image_url} />
+                            img_url={image_url}
+                            enc_scheme={enc_type} />
                     );
                 })}
 
